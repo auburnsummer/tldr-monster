@@ -25,18 +25,17 @@ async function handler(request, event) {
 
     const ourFile = _.find(files, (file) => file.name === path);
 
+    let markdown;
     if (_.isUndefined(ourFile)) {
         // okay, give them similar words...
-        const title = `**Couldn't find ${path}. Similar commands:**`;
+        const title = `**Couldn't find ${path}. Did you mean:**`;
         const searchResults = didyoumean.similarWords(files, path);
         
         const lines = [title, formatter.formatSimilar(searchResults)];
-        const builderMarkdown = _.join(lines, "\n");
-        const builderFormatted = formatter.render(builderMarkdown);
-        return new Response(builderFormatted, init);
+        markdown = _.join(lines, "\n");
+    } else {
+        markdown = await tldr.getTldr(ourFile.platform, ourFile.name);
     }
-
-    const markdown = await tldr.getTldr(ourFile.platform, ourFile.name);
 
     const formatted = formatter.render(markdown);
 
