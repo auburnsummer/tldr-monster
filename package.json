@@ -13,7 +13,10 @@
         "prettier": "^1.17.0"
     },
     "dependencies": {
+        "@auburnsummer/markdown-it-terminal": "^0.2.2",
+        "js-levenshtein": "^1.1.6",
         "lodash": "^4.17.19",
+        "markdown-it": "^11.0.0",
         "path-parse": "^1.0.6",
         "serverless-cloudflare-workers": "^1.2.0"
     }
