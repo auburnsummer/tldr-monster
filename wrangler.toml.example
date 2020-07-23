@@ -1,0 +1,6 @@
+name = "tldr-monster"
+type = "webpack"
+account_id = "fajwefawefawefawefwef"
+workers_dev = true
+route = ""
+zone_id = ""
