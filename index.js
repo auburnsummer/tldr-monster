@@ -19,7 +19,7 @@ async function handler(request, event) {
     const path = _.toLower(_.trimStart(url.pathname, "/"));
 
     // all available files
-    const files = await tldr.getFiles();
+    const files = await tldr.getFiles(event);
 
     const ourFile = _.find(files, (file) => file.name === path);
     if (_.isUndefined(ourFile)) {

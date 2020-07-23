@@ -4,3 +4,4 @@ worker/
 package-lock.json
 wrangler.toml
 .env
+dist/
