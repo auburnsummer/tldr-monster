@@ -5,6 +5,15 @@ const formatter = require("./lib/format");
 const _ = require("lodash");
 const didyoumean = require("./lib/didyoumean");
 
+const rootMessage = `
+
+(\\__/)      I'm a friendly TL;DR monster!
+( '_')      Try something like:
+(>   )>O         
+U   U             curl tldr.monster/tar
+
+`
+
 /**
  * Example of how router can be used in an application
  *  */
@@ -42,16 +51,26 @@ async function handler(request, event) {
     return new Response(formatted, init);
 }
 
+async function rootHandler(request, event) {
+    const init = {
+        headers: { 'content-type': 'text/plain; charset=utf-8'}
+    }
+
+    return new Response(rootMessage, init);
+}
+
 async function handleRequest(event) {
     const r = new Router()
     const {request} = event;
+
+    r.get('/', request => rootHandler(request, event)); // return a default message for the root route
+
     // Replace with the approriate paths and handlers
     r.get('.*', request => handler(request, event));
     // r.get('.*/foo', request => handler(request))
     // r.post('.*/foo.*', request => handler(request))
     // r.get('/demos/router/foo', request => fetch(request)) // return the response from the origin
 
-    r.get('/', () => new Response('Hello worker 2!')) // return a default message for the root route
 
     const resp = await r.route(request)
     return resp
