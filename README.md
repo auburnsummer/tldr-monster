@@ -9,6 +9,8 @@ To use it, run `curl tldr.monster/cmd`, replacing `cmd` with the command you wan
 
 For instance, if I want info about `tar`, I would run `curl tldr.monster/tar`.
 
+![tldr.svg](https://asciinema.org/a/K4hvYhawb7q04kGLCNtC6uiE3)
+
 # Not done yet
 
 I will implement these later probably
