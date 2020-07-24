@@ -1,28 +1,18 @@
-## Router
+# the TL;DR monster...
 
-Selects the logic to respond to requests based on the `request` method and URL. Can be used with REST APIs or apps that require basic routing logic.
+...helps you remember how to use cli commands! Isn't the TL;DR monster nice?
 
-[`index.js`](https://github.com/cloudflare/worker-template-router/blob/master/index.js) is the content of the Workers script.
+tldr.monster is an online copy of [TL;DR Pages](https://github.com/tldr-pages/tldr) which is
+designed for in-terminal use using `curl` or similar.
 
-Live Demos are hosted on `workers-tooling.cf/demos/router`:
-[Demo /bar](http://workers-tooling.cf/demos/router/bar) | [Demo /foo](http://workers-tooling.cf/demos/router/foo)
+To use it, run `curl tldr.monster/cmd`, replacing `cmd` with the command you want info on.
 
-#### Wrangler
+For instance, if I want info about `tar`, I would run `curl tldr.monster/tar`.
 
-You can use [wrangler](https://github.com/cloudflare/wrangler) to generate a new Cloudflare Workers project based on this template by running the following command from your terminal:
+# Not done yet
 
-```
-wrangler generate myapp https://github.com/cloudflare/worker-template-router
-```
+I will implement these later probably
 
-Before publishing your code you need to edit `wrangler.toml` file and add your Cloudflare `account_id` - more information about publishing your code can be found [in the documentation](https://workers.cloudflare.com/docs/quickstart/configuring-and-publishing/).
+ - handle ambigious cases (e.g. Linux `tree` vs Windows `tree`), right now it just assumes Linux because Linux is better^H^H^H^H^H^H^H^H^H^H^H^H^H^H^H Linux comes first in alphabetical order
 
-Once you are ready, you can publish your code by running the following command:
-
-```
-wrangler publish
-```
-
-#### Serverless
-
-To deploy using serverless add a [`serverless.yml`](https://serverless.com/framework/docs/providers/cloudflare/) file.
+ - language selection instead of just English
