@@ -21,8 +21,7 @@ COPY Procfile .
 RUN curl --location --output /bin/overmind.gz https://github.com/DarthSim/overmind/releases/download/v2.3.0/overmind-v2.3.0-linux-amd64.gz \
   && gzip -d /bin/overmind.gz \
   && chmod +x /bin/overmind
-EXPOSE 8080
 
-# CMD ["/usr/sbin/varnishd", "-F", "-f", "/etc/varnish/default.vcl", "-T", "none"]
+EXPOSE 80
 
 CMD ["overmind", "start"]
