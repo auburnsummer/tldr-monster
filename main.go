@@ -43,7 +43,8 @@ func DownloadFileToChannel(url string, out chan<- []byte) {
 }
 
 func GetGlamourTldrPage(page string) (out []byte) {
-	// platforms TLDR pages supports.
+	// platforms we support with our service. this is in priority order,
+	// so if a command exists in both "windows" and "linux", we would pick linux.
 	platforms := [4]string{"common", "linux", "osx", "windows"}
 
 	// corresponding URLs they must be hosted on if they exist.
@@ -77,15 +78,24 @@ func handler(w http.ResponseWriter, req *http.Request) {
 	url := req.URL
 	path := strings.TrimPrefix(url.Path, "/")
 
-	out := GetGlamourTldrPage(path)
+	var out []byte
+	if len(path) == 0 {
+		out = []byte(`
+(\__/)      I'm a friendly TL;DR monster!
+( '_')      Try something like:
+(>   )>O         
+U   U             curl tldr.monster/tar
+`)
+	} else {
+		out = GetGlamourTldrPage(path)
+	}
 
+	w.Header().Set("Cache-Control", "max-age=2592000")
 	w.Write(out)
 }
 
 func main() {
-	// Hello world, the web server
-
 	http.HandleFunc("/", handler)
-	log.Println("Listing for requests at http://localhost:8000")
-	log.Fatal(http.ListenAndServe(":8000", nil))
+	log.Println("Listing for requests at http://localhost:8080")
+	log.Fatal(http.ListenAndServe(":8080", nil))
 }
