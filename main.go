@@ -8,13 +8,21 @@ import (
 	"strings"
 
 	"github.com/auburnsummer/glamour"
+	"github.com/gomarkdown/markdown"
 )
 
 const DEFAULT_ERROR = "I could not find that page."
 const THEME = "dracula"
 
+func HTMLWrapper(innerHTML []byte) []byte {
+	// we don't have to close the body or html tags, the browser can render it anyway.
+	beginning := []byte(`<html><head><link rel="stylesheet" href="https://unpkg.com/sakura.css/css/sakura.css" type="text/css"></head><body>`)
+
+	return append(beginning, innerHTML...)
+}
+
 // try to download a file. the channel will resolve with either the contents, or an empty byte slice.
-func DownloadFileToChannel(url string, out chan<- []byte) {
+func DownloadFileToChannel(url string, browser bool, out chan<- []byte) {
 	empty := []byte{}
 	resp, err := http.Get(url)
 	if err != nil {
@@ -33,16 +41,32 @@ func DownloadFileToChannel(url string, out chan<- []byte) {
 		return
 	}
 
-	glamouredString, err := glamour.RenderBytes(content, THEME)
-	if err != nil {
-		out <- empty
-		return
+	var outString []byte
+	if browser {
+		outString = HTMLWrapper(markdown.ToHTML(content, nil, nil))
+	} else {
+		outString2, err := glamour.RenderBytes(content, THEME)
+		outString = outString2
+		if err != nil {
+			out <- empty
+			return
+		}
 	}
 
-	out <- glamouredString
+	out <- outString
 }
 
-func GetGlamourTldrPage(page string) (out []byte) {
+func IsABrowser(req *http.Request) bool {
+	user_agents := req.Header.Values("user-agent")
+	for _, value := range user_agents {
+		if strings.Contains(strings.ToLower(value), "mozilla") {
+			return true
+		}
+	}
+	return false
+}
+
+func GetTldrPage(page string, browser bool) (out []byte) {
 	// platforms we support with our service. this is in priority order,
 	// so if a command exists in both "windows" and "linux", we would pick linux.
 	platforms := [4]string{"common", "linux", "osx", "windows"}
@@ -62,7 +86,7 @@ func GetGlamourTldrPage(page string) (out []byte) {
 
 	for i, plat := range platforms {
 		url := fmt.Sprintf("https://raw.githubusercontent.com/tldr-pages/tldr/main/pages/%s/%s.md", plat, page)
-		go DownloadFileToChannel(url, chans[i])
+		go DownloadFileToChannel(url, browser, chans[i])
 	}
 
 	for i := range platforms {
@@ -87,7 +111,7 @@ func handler(w http.ResponseWriter, req *http.Request) {
 U   U             curl tldr.monster/tar
 `)
 	} else {
-		out = GetGlamourTldrPage(path)
+		out = GetTldrPage(path, IsABrowser(req))
 	}
 
 	w.Header().Set("Cache-Control", "max-age=2592000")
