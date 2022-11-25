@@ -115,6 +115,7 @@ U   U             curl tldr.monster/tar
 	}
 
 	w.Header().Set("Cache-Control", "max-age=2592000")
+	w.Header().Set("Vary", "User-Agent")
 	w.Write(out)
 }
 
