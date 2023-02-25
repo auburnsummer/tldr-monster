@@ -2,14 +2,16 @@ module github.com/auburnsummer/tldr-monster
 
 go 1.19
 
-require github.com/auburnsummer/glamour v0.0.0-20220826160935-0f9cb5f886c6
+require (
+	github.com/auburnsummer/glamour v0.0.0-20220826160935-0f9cb5f886c6
+	github.com/gomarkdown/markdown v0.0.0-20221013030248-663e2500819c
+)
 
 require (
 	github.com/alecthomas/chroma v0.10.0 // indirect
 	github.com/aymerick/douceur v0.2.0 // indirect
 	github.com/charmbracelet/glamour v0.5.0 // indirect
 	github.com/dlclark/regexp2 v1.4.0 // indirect
-	github.com/gomarkdown/markdown v0.0.0-20221013030248-663e2500819c // indirect
 	github.com/gorilla/css v1.0.0 // indirect
 	github.com/lucasb-eyer/go-colorful v1.2.0 // indirect
 	github.com/mattn/go-isatty v0.0.14 // indirect
@@ -22,5 +24,5 @@ require (
 	github.com/yuin/goldmark v1.4.4 // indirect
 	github.com/yuin/goldmark-emoji v1.0.1 // indirect
 	golang.org/x/net v0.0.0-20210614182718-04defd469f4e // indirect
-	golang.org/x/sys v0.0.0-20210630005230-0f9fa26af87c // indirect
+	golang.org/x/sys v0.1.0 // indirect
 )
