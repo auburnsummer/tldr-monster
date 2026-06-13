@@ -1,4 +1,4 @@
-FROM golang:1.16-alpine as build
+FROM golang:1.26-alpine as build
 
 COPY . /app
 WORKDIR /app
@@ -6,7 +6,7 @@ WORKDIR /app
 RUN go mod download
 RUN CGO_ENABLED=0 go build
 
-FROM alpine:3.16.2
+FROM alpine:3.24
 
 RUN apk add --no-cache tmux curl gzip varnish
 

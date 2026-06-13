@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/auburnsummer/glamour"
+	"charm.land/glamour/v2"
 	"github.com/gomarkdown/markdown"
 )
 
